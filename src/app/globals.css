@@ -1,0 +1,240 @@
+@import 'tailwindcss';
+
+@theme {
+  --shadow-glass: 0 8px 32px 0 rgba(30, 41, 59, 0.4);
+  --shadow-glass-dark: 0 8px 32px 0 rgba(15, 23, 42, 0.6);
+  --shadow-neon: 0 0 20px rgba(71, 85, 105, 0.6);
+  --shadow-neon-green: 0 0 20px rgba(16, 185, 129, 0.5);
+  --shadow-neon-orange: 0 0 20px rgba(245, 158, 11, 0.5);
+  --shadow-neon-red: 0 0 20px rgba(239, 68, 68, 0.5);
+  --shadow-neon-purple: 0 0 20px rgba(100, 116, 139, 0.5);
+}
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-gradient-to-br from-slate-800 via-gray-900 to-slate-800;
+    @apply text-white min-h-screen;
+    @apply transition-colors duration-300;
+  }
+
+  /* 다크모드 기본 설정 */
+  .dark body {
+    @apply bg-gradient-to-br from-gray-800 via-slate-900 to-gray-800;
+  }
+
+  /* 라이트모드 설정 */
+  .light body {
+    @apply bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100;
+    @apply text-gray-900;
+  }
+}
+
+@layer components {
+  /* 글래스모피즘 효과 */
+  .glass-card {
+    @apply bg-white/10 dark:bg-gray-800/50 backdrop-blur-md;
+    @apply border border-white/20 dark:border-gray-200/50;
+    @apply shadow-glass hover:shadow-glass-dark;
+    @apply rounded-2xl transition-all duration-300;
+  }
+
+  /* 네온 글로우 효과 */
+  .neon-glow {
+    @apply shadow-neon;
+  }
+
+  /* 스크롤바 스타일링 */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(156, 163, 175, 0.7);
+  }
+
+  /* 애니메이션 */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  /* 그라데이션 텍스트 */
+  .gradient-text {
+    @apply bg-gradient-to-r from-slate-400 via-gray-500 to-slate-600;
+    @apply bg-clip-text text-transparent;
+  }
+
+  /* 호버 효과 */
+  .hover-lift {
+    @apply transition-transform duration-200 hover:-translate-y-1;
+  }
+}
+
+@layer utilities {
+  /* 텍스트 선택 스타일 */
+  ::selection {
+    @apply bg-slate-600/30 text-white;
+  }
+
+  /* 포커스 링 제거 */
+  .focus-visible {
+    @apply focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2;
+    @apply dark:focus:ring-offset-gray-100;
+  }
+
+  /* 숨김 스크롤바 */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* 로딩 애니메이션 */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 체크 애니메이션 */
+@keyframes checkmark {
+  0% {
+    stroke-dashoffset: 16;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.checkmark {
+  stroke-dasharray: 16;
+  animation: checkmark 0.3s ease-in-out;
+}
+
+/* 반응형 그리드 */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  grid-auto-rows: min-content;
+}
+
+@media (min-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 모바일 최적화 */
+@media (max-width: 640px) {
+  .glass-card {
+    @apply rounded-xl;
+  }
+}
+
+/* AI 채팅 마크다운 스타일 */
+.markdown-content {
+  @apply text-sm leading-relaxed;
+}
+
+.markdown-content h1 {
+  @apply text-lg font-bold mb-3 text-blue-300 border-b border-blue-300/30 pb-1;
+}
+
+.markdown-content h2 {
+  @apply text-base font-semibold mb-2 text-blue-300;
+}
+
+.markdown-content h3 {
+  @apply text-sm font-medium mb-1 text-blue-200;
+}
+
+.markdown-content ul {
+  @apply list-none space-y-1 ml-2;
+}
+
+.markdown-content ol {
+  @apply list-decimal list-inside space-y-1 ml-2;
+}
+
+.markdown-content li {
+  @apply text-sm leading-relaxed;
+}
+
+.markdown-content strong {
+  @apply font-semibold text-white;
+}
+
+.markdown-content em {
+  @apply italic text-gray-300;
+}
+
+.markdown-content code {
+  @apply bg-black/20 px-1 py-0.5 rounded text-xs text-blue-200 font-mono;
+}
+
+.markdown-content pre {
+  @apply bg-black/30 p-3 rounded-lg overflow-x-auto text-xs my-2 font-mono;
+}
+
+.markdown-content p {
+  @apply mb-2 last:mb-0;
+}
+
+.markdown-content hr {
+  @apply border-gray-500/30 my-3;
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-blue-400/50 pl-3 italic text-gray-300 my-2;
+}
+
+.markdown-content table {
+  @apply w-full border-collapse border border-gray-500/30 my-2;
+}
+
+.markdown-content th,
+.markdown-content td {
+  @apply border border-gray-500/30 px-2 py-1 text-xs;
+}
+
+.markdown-content th {
+  @apply bg-black/20 font-medium;
+}
