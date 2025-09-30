@@ -11,11 +11,33 @@ type TodoSummary = {
   due_date?: string
 }
 
-// Groq API 설정 - OpenAI 호환 API 사용 (초고속!)
-const client = new OpenAI({
-  apiKey: process.env.GROQ_API_KEY,
-  baseURL: process.env.GEMMA_API_BASE_URL || 'https://api.groq.com/openai/v1',
-})
+// Groq API 설정 - Next.js 런타임 환경 변수 모범 사례 적용
+// 빌드 시점에는 환경 변수가 없을 수 있으므로 조건부 초기화
+const client = process.env.GROQ_API_KEY
+  ? new OpenAI({
+      apiKey: process.env.GROQ_API_KEY,
+      baseURL: process.env.GEMMA_API_BASE_URL || 'https://api.groq.com/openai/v1',
+    })
+  : null
+
+// 런타임에 클라이언트를 안전하게 가져오는 함수
+function getClient(): OpenAI {
+  if (client) {
+    return client
+  }
+
+  const apiKey = process.env.GROQ_API_KEY
+  const baseURL = process.env.GEMMA_API_BASE_URL || 'https://api.groq.com/openai/v1'
+
+  if (!apiKey) {
+    throw new Error('GROQ_API_KEY 환경 변수가 설정되지 않았습니다.')
+  }
+
+  return new OpenAI({
+    apiKey,
+    baseURL,
+  })
+}
 
 // AI 응답 타입 정의
 export interface AIResponse {
@@ -106,7 +128,7 @@ export async function processUserMessage(
     ]
 
     // Groq API 호출 - Gemma 2 모델 사용
-    const completion = await client.chat.completions.create({
+    const completion = await getClient().chat.completions.create({
       messages,
       model: process.env.GEMMA_MODEL_NAME || 'gemma2-9b-it',
       temperature: 0.7,
@@ -270,7 +292,7 @@ ${todoContext}
 
 구체적이고 상세하게 답변해주세요.`
 
-    const completion = await client.chat.completions.create({
+    const completion = await getClient().chat.completions.create({
       messages: [
         {
           role: 'system',
