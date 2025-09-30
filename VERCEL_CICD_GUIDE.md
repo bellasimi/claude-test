@@ -130,9 +130,3 @@ git push origin main
 1. GitHub Secrets이 모두 설정되었는지 확인
 2. Vercel Dashboard의 환경변수 설정 확인
 3. Actions 로그에서 구체적인 에러 메시지 확인
-
-**도움이 필요하면:**
-
-- GitHub Actions 로그 확인
-- Vercel Dashboard의 배포 로그 확인
-- 환경변수가 올바르게 설정되었는지 재확인
