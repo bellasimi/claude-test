@@ -19,7 +19,7 @@ SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
 
 ## 🌐 배포 플랫폼별 설정
 
-### 1. Vercel 배포 (추천) ⚡
+### 1. Vercel 배포 (추천)
 
 Vercel Secrets:
 
